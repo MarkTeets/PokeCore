@@ -29,14 +29,14 @@ const pokeFetch = async (url: string) => {
   //console.log('jsonDBPath', jsonDBPath);
 
   // data will hold what is returned to the user
-  let data: string;
+  let data: object;
   // Check to see if the file already exists in the localCache
   const dataExists = fs.existsSync(jsonDBPath);
   // Return the data if it exists in the cache already
   if (dataExists) {
     data = JSON.parse(fs.readFileSync(jsonDBPath, 'utf8'));
+    console.log('Data retrieved from cache');
     return data;
-    //console.log('Data retrieved from cache');
   }
 
   // Fetch the new data from the api and store it
@@ -71,9 +71,15 @@ const pokeFetch = async (url: string) => {
       console.log('Failed to write file', err);
     }
   });
-
+  console.log('data retrieved from api');
   return data;
 };
 
-// pokeFetch('types');
-console.log(pokeFetch('pokemon/3'));
+(async () => {
+  try {
+    const data = await pokeFetch('type/4');
+    console.log(data['name']);
+  } catch (err) {
+    console.error('Error fetching data:', err);
+  }
+})();
