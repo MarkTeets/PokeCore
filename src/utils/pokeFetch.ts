@@ -11,7 +11,6 @@ file that exists already with that name, if so, checks to see if that result is 
 
 If it is, it'll source the information from there.
 If it isn't, it'll grab the info from the api and write a new file here
-
 */
 
 import * as fs from 'fs';
@@ -26,7 +25,7 @@ const pokeFetch = async (url: string) => {
 
   // Create the path to the local cache file
   const jsonDBPath = path.resolve(__dirname, '../localCache/' + fullUrl + '.json');
-  console.log('jsonDBPath', jsonDBPath);
+  //console.log('jsonDBPath', jsonDBPath);
 
   // data will hold what is returned to the user
   let data: object;
@@ -43,8 +42,8 @@ const pokeFetch = async (url: string) => {
   const webUrl = 'https://' + fullUrl;
   const response = await fetch(webUrl);
 
-  if (response.status !== 200) {
-    console.log('Non 200 status response:', response);
+  if (!response.ok) {
+    console.log('Bad status response:', response);
     return;
   }
 
@@ -52,14 +51,14 @@ const pokeFetch = async (url: string) => {
   // console.log('Response data:', data);
 
   // Make the directory(ies) for the local cache
-  let pathStart = path.resolve(__dirname, './' + baseUrl);
+  let pathStart = path.resolve(__dirname, '../localCache/' + baseUrl);
   //console.log('pathStart', pathStart);
   const dirs = url.split('/').slice(0, -1);
   for (let i = 0; i < dirs.length; i++) {
     const nextPath = pathStart + '/' + dirs[i];
     // console.log('nextPath', nextPath);
     if (!fs.existsSync(nextPath)) {
-      //console.log("path doesn't exist to:", dirs[i]);
+      // console.log("path doesn't exist to:", dirs[i]);
       fs.mkdirSync(nextPath);
     }
     pathStart = nextPath;
@@ -75,14 +74,17 @@ const pokeFetch = async (url: string) => {
   return data;
 };
 
-// Testing
+/* Testing
 (async () => {
-  try {
-    const data = await pokeFetch('type/4');
-    console.log(data['name']);
-  } catch (err) {
-    console.error('Error fetching data:', err);
+  for (let i = 1; i < 26; i++) {
+    try {
+      const data = await pokeFetch('nature/' + i);
+      console.log(data['name']);
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    }
   }
 })();
+//*/
 
 export default pokeFetch;

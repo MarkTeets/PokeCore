@@ -1,5 +1,8 @@
 .DS_Store
 
+# Local Cache
+src/localCache
+
 # Logs
 logs
 *.log
