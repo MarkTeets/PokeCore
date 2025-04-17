@@ -25,8 +25,8 @@ const pokeFetch = async (url: string) => {
   const fullUrl = baseUrl + url;
 
   // Create the path to the local cache file
-  const jsonDBPath = path.resolve(__dirname, './' + fullUrl + '.json');
-  //console.log('jsonDBPath', jsonDBPath);
+  const jsonDBPath = path.resolve(__dirname, '../localCache/' + fullUrl + '.json');
+  console.log('jsonDBPath', jsonDBPath);
 
   // data will hold what is returned to the user
   let data: object;
@@ -75,6 +75,7 @@ const pokeFetch = async (url: string) => {
   return data;
 };
 
+// Testing
 (async () => {
   try {
     const data = await pokeFetch('type/4');
@@ -83,3 +84,5 @@ const pokeFetch = async (url: string) => {
     console.error('Error fetching data:', err);
   }
 })();
+
+export default pokeFetch;
