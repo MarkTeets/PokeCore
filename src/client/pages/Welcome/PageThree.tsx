@@ -1,0 +1,29 @@
+// Packages
+import React, { useState } from 'react';
+
+// Main component
+const PageThree = () => {
+  const [data, setData] = useState<string | null>(null);
+
+  const handleClick = async () => {
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon/starmie');
+    if (response.ok) {
+      const res = await response.json();
+      setData(res?.name);
+      console.log(res);
+    } else {
+      setData('Connection to backend failed');
+      // console.log('fail');
+    }
+  };
+
+  return (
+    <div className='page-three'>
+      <h1>This is page three</h1>
+      <button onClick={handleClick}>Click me to retrieve Starmie data</button>
+      <div>{data}</div>
+    </div>
+  );
+};
+
+export default PageThree;

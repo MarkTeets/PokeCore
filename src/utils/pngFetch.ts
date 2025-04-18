@@ -5,11 +5,20 @@ From pokemon/3.json
 obj.sprites.front_default
 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png
 
+Front default:
+pokemon/other/official-artwork/3
+
+Official artwork:
+pokemon/other/official-artwork/3
+
+Home sprite:
+pokemon/other/official-artwork/3
 
 From type/3.json
 Typical type sprite:
 obj.sprites.generation-viii.sword-shield.name_icon
 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/sword-shield/3.png
+types/generation-viii/sword-shield/3
 */
 
 import * as fs from 'fs';
@@ -81,7 +90,7 @@ const pngFetch = async (url: string) => {
 (async () => {
   //for (let i = 1; i < 20; i++) {
   try {
-    const data = await pngFetch('types/generation-iv/platinum/10001');
+    const data = await pngFetch('pokemon/other/official-artwork/3');
     //console.log('data:', data);
   } catch (err) {
     console.error('Execution error:', err);
