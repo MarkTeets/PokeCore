@@ -3,6 +3,9 @@
 # Local Cache
 src/localCache
 
+# Secret keys
+src/utils/sqlConfig.ts
+
 # Logs
 logs
 *.log
