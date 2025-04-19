@@ -17,3 +17,8 @@ export type WelcomeResponse = {
   status: string;
   userList?: User[];
 };
+
+export type PokeDataResponse = {
+  status: string;
+  pokeData: any;
+};

@@ -20,7 +20,7 @@ import PokemonLayout from './layouts/PokemonLayout';
 import Home, { userLoader } from './pages/Welcome/Home';
 import PageTwo from './pages/Welcome/PageTwo';
 import PageThree from './pages/Welcome/PageThree';
-import PokeLookUp from './pages/Pokemon/PokeLookUp';
+import PokeLookUp, { pokedexLoader } from './pages/Pokemon/PokeLookUp';
 
 // Context
 import { userContext } from './context';
@@ -36,7 +36,7 @@ const router = createBrowserRouter(
         <Route path='/PageThree' element={<PageThree key='PageThree' />} />
       </Route>
       <Route path='/pokemon' element={<PokemonLayout key='PokemonLayout' />}>
-        <Route index element={<PokeLookUp />} />
+        <Route index element={<PokeLookUp />} loader={pokedexLoader} />
       </Route>
     </Route>
   )

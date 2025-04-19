@@ -1,6 +1,6 @@
 // Packages
 import React, { useContext } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
 
 // Types
 import { User, WelcomeResponse } from '../../../types';
@@ -12,6 +12,7 @@ import { userContext } from '../../context';
 // Main component
 const Home = () => {
   const userListData = useLoaderData() as User[];
+  const navigate = useNavigate();
   const { user, setUser } = useContext<UserContextValue>(userContext);
 
   const handleChange = (event) => {
@@ -19,10 +20,14 @@ const Home = () => {
     setUser(event.target.value);
   };
 
+  const handleClick = () => {
+    return navigate('/pokemon');
+  };
+
   return (
     <div className='home-page'>
       <h1>Welcome Trainer!</h1>
-      <div>user:{JSON.stringify(user)}</div>
+      {/* <div>user:{JSON.stringify(user)}</div> */}
       <label htmlFor='username-select'>Please select your user</label>
       <select
         name='username'
@@ -32,6 +37,7 @@ const Home = () => {
       >
         {generateOptions(userListData)}
       </select>
+      <div>{user && <button onClick={handleClick}>Let&apos;s fricken go!</button>}</div>
     </div>
   );
 };
@@ -41,19 +47,19 @@ export default Home;
 // Loaders
 export const userLoader = async () => {
   // Request list of users from backend
-  const res: Response = await fetch('/api/user/get-userList');
+  const response: Response = await fetch('/api/user/get-userList');
 
   // If the response status isn't in 200s, inform user
-  if (!res.ok) {
-    return { error: 'Submission failed, please try again' };
+  if (!response.ok) {
+    return { error: 'Retrieval failed, please try again' };
   }
 
   // The request response has status 200, convert the response back to JS from JSON and proceed
-  const response = (await res.json()) as WelcomeResponse;
+  const res = (await response.json()) as WelcomeResponse;
 
-  if (response.status === 'valid') {
-    console.log(response);
-    return response.userList;
+  if (res.status === 'valid') {
+    console.log(res);
+    return res.userList;
   }
 
   return [
