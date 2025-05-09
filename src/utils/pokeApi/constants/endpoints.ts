@@ -1,5 +1,59 @@
+// Types
+import {
+  Berry,
+  BerryFirmness,
+  BerryFlavor,
+  ContestType,
+  ContestEffect,
+  SuperContestEffect,
+  EncounterMethod,
+  EncounterCondition,
+  EncounterConditionValue,
+  EvolutionChain,
+  EvolutionTrigger,
+  Generation,
+  Pokedex,
+  Version,
+  VersionGroup,
+  Item,
+  ItemAttribute,
+  ItemCategory,
+  ItemFlingEffect,
+  ItemPocket,
+  Location,
+  LocationArea,
+  PalParkArea,
+  Region,
+  Machine,
+  Move,
+  MoveAilment,
+  MoveBattleStyle,
+  MoveCategory,
+  MoveDamageClass,
+  MoveLearnMethod,
+  MoveTarget,
+  Ability,
+  Characteristic,
+  EggGroup,
+  Gender,
+  GrowthRate,
+  Nature,
+  PokeathlonStat,
+  Pokemon,
+  LocationAreaEncounter,
+  PokemonColor,
+  PokemonForm,
+  PokemonHabitat,
+  PokemonShape,
+  PokemonSpecies,
+  Stat,
+  Type,
+  Language
+} from '../models';
+
 /**
  * Endpoints of the PokéAPI
+ * Connects a set of consistent keys to the endpoints they're tied to in the PokeApi
  */
 export const ENDPOINT_MAP = {
   BERRY: 'berry',
@@ -54,7 +108,61 @@ export const ENDPOINT_MAP = {
 } as const;
 
 export const ENDPOINT_KEYS = new Set(Object.keys(ENDPOINT_MAP));
-
-type ObjectValue<T> = T[keyof T];
-export type Endpoint = ObjectValue<typeof ENDPOINT_MAP>;
+export const ENDPOINT_VALUES = new Set(Object.values(ENDPOINT_MAP));
 export type EndpointKey = keyof typeof ENDPOINT_MAP;
+export type EndpointValue = (typeof ENDPOINT_MAP)[EndpointKey];
+
+/**
+ * Connects a set of consistent keys to the types they return from the PokeApi
+ */
+export type EndpointTypeMap = {
+  BERRY: Berry;
+  BERRY_FIRMNESS: BerryFirmness;
+  BERRY_FLAVOR: BerryFlavor;
+  CONTEST_TYPE: ContestType;
+  CONTEST_EFFECT: ContestEffect;
+  SUPER_CONTEST_EFFECT: SuperContestEffect;
+  ENCOUNTER_METHOD: EncounterMethod;
+  ENCOUNTER_CONDITION: EncounterCondition;
+  ENCOUNTER_CONDITION_VALUE: EncounterConditionValue;
+  EVOLUTION_CHAIN: EvolutionChain;
+  EVOLUTION_TRIGGER: EvolutionTrigger;
+  GENERATION: Generation;
+  POKEDEX: Pokedex;
+  VERSION: Version;
+  VERSION_GROUP: VersionGroup;
+  ITEM: Item;
+  ITEM_ATTRIBUTE: ItemAttribute;
+  ITEM_CATEGORY: ItemCategory;
+  ITEM_FLING_EFFECT: ItemFlingEffect;
+  ITEM_POCKET: ItemPocket;
+  LOCATION: Location;
+  LOCATION_AREA: LocationArea;
+  PALPARK_AREA: PalParkArea;
+  REGION: Region;
+  MACHINE: Machine;
+  MOVE: Move;
+  MOVE_AILMENT: MoveAilment;
+  MOVE_BATTLE_STYLE: MoveBattleStyle;
+  MOVE_CATEGORY: MoveCategory;
+  MOVE_DAMAGE_CLASS: MoveDamageClass;
+  MOVE_LEARN_METHOD: MoveLearnMethod;
+  MOVE_TARGET: MoveTarget;
+  ABILITY: Ability;
+  CHARACTERISTIC: Characteristic;
+  EGG_GROUP: EggGroup;
+  GENDER: Gender;
+  GROWTH_RATE: GrowthRate;
+  NATURE: Nature;
+  POKEATHLON_STAT: PokeathlonStat;
+  POKEMON: Pokemon;
+  POKEMON_LOCATION_AREA: LocationAreaEncounter[];
+  POKEMON_COLOR: PokemonColor;
+  POKEMON_FORM: PokemonForm;
+  POKEMON_HABITAT: PokemonHabitat;
+  POKEMON_SHAPE: PokemonShape;
+  POKEMON_SPECIES: PokemonSpecies;
+  STAT: Stat;
+  TYPE: Type;
+  LANGUAGE: Language;
+};

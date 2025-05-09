@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import userRouter from './routes/userRouter';
 import pokeRouter from './routes/pokeRouter';
+import pokeApiRouter from './routes/pokeApiRouter';
 
 const app = express();
 const PORT = 3000;
@@ -15,6 +16,7 @@ app.use(express.static(path.join(__dirname, '../../dist/')));
 // Paths for testing the server
 app.use('/api/user', userRouter);
 app.use('/api/pokeApi', pokeRouter);
+app.use('/api/pokeApi2', pokeApiRouter);
 app.get('/api', (req: Request, res: Response) => {
   res.send('hello world from express!');
 });
