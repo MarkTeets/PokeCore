@@ -139,6 +139,40 @@ export const TYPES = {
   DRAGON: 16,
   DARK: 17,
   FAIRY: 18,
+  STELLAR: 19,
   UNKNOWN: 10_001,
   SHADOW: 10_002
 } as const;
+/*
+export const TYPES_LOWER_TO_UPPER_MAP = {
+  normal: 'NORMAL',
+  fighting: 'FIGHTING',
+  flying: 'FLYING',
+  poison: 'POISON',
+  ground: 'GROUND',
+  rock: 'ROCK',
+  bug: 'BUG',
+  ghost: 'GHOST',
+  steel: 'STEEL',
+  fire: 'FIRE',
+  water: 'WATER',
+  grass: 'GRASS',
+  electric: 'ELECTRIC',
+  psychic: 'PSYCHIC',
+  ice: 'ICE',
+  dragon: 'DRAGON',
+  dark: 'DARK',
+  fairy: 'FAIRY',
+  stellar: 'STELLAR',
+  unknown: 'UNKNOWN',
+  shadow: 'SHADOW'
+};
+
+export const TYPE_KEYS_SET = new Set(Object.keys(TYPES));
+export type EndpointKey = keyof typeof ENDPOINT_MAP;
+export type EndpointValue = (typeof ENDPOINT_MAP)[EndpointKey];
+
+const getType = (): PokeType => {
+  return PokeType.fire;
+};
+*/

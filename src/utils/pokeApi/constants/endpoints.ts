@@ -1,4 +1,5 @@
 // Types
+import { ResourceKey } from './base';
 import {
   Berry,
   BerryFirmness,
@@ -55,7 +56,7 @@ import {
  * Endpoints of the PokéAPI
  * Connects a set of consistent keys to the endpoints they're tied to in the PokeApi
  */
-export const ENDPOINT_MAP = {
+export const ENDPOINT_MAP: Record<ResourceKey, string> = {
   BERRY: 'berry',
   BERRY_FIRMNESS: 'berry-firmness',
   BERRY_FLAVOR: 'berry-flavor',
@@ -107,10 +108,10 @@ export const ENDPOINT_MAP = {
   LANGUAGE: 'language'
 } as const;
 
+export type EndpointValue = (typeof ENDPOINT_MAP)[ResourceKey];
 export const ENDPOINT_KEYS = new Set(Object.keys(ENDPOINT_MAP));
 export const ENDPOINT_VALUES = new Set(Object.values(ENDPOINT_MAP));
-export type EndpointKey = keyof typeof ENDPOINT_MAP;
-export type EndpointValue = (typeof ENDPOINT_MAP)[EndpointKey];
+//export type EndpointKey = keyof typeof ENDPOINT_MAP;
 
 /**
  * Connects a set of consistent keys to the types they return from the PokeApi
