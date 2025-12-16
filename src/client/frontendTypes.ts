@@ -17,6 +17,32 @@ export type UserContextValue = {
   setUser: SetUser;
 };
 
+export type PokeDataContextValue = {
+  typeDict: any;
+  setTypeDict: React.Dispatch<any>;
+};
+
+export type PokeTeamsContextValue = {
+  pokeTeams: any;
+  setPokeTeams: React.Dispatch<any>;
+};
+
+export type TeamList = {
+  [key: number]: Team;
+};
+
+export type Team = Pokemon[];
+
+export type Pokemon = {
+  name: string;
+};
+
+//---- Loader types ------------------------------------------------------------------------------
+export type TypeDictLoader = {
+  error?: string;
+  typeDict?: any;
+};
+
 //---- Component Functions -----------------------------------------------------------------------
 /*
 export type OnSquareClick = (event: React.MouseEvent<HTMLElement>) => void;

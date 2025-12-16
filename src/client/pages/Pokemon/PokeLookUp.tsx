@@ -2,6 +2,17 @@
 import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { PokeDataResponse } from '../../../types';
+import { getResourceByNameOrId } from '../../../utils/pokeApi/fetchers/getResourceByNameOrId';
+import { RESOURCE_KEY_MAP } from '../../../utils/pokeApi/constants';
+
+/** PokeLookUp
+ * The purpose of this page is to be able to look up details for a specific species of pokemon.
+ * This will eventually look like a pokemondb.net entry, but briefer
+ *
+ * It may be possible at some point to click to add a pokemon that's been looked up here to a
+ * user's PokeComputer or Team, if such a pokemon is allowed on the team based on what region the
+ * pokemon is from, and what region the team is tied to.
+ */
 
 // Main component
 const PokeLookUp = () => {
@@ -16,9 +27,21 @@ const PokeLookUp = () => {
 
   const handleClick = async () => {
     if (!Object.hasOwn(pokemonDict, input)) {
+      console.log(`input ${input} not found in pokeDict`);
       return;
     }
 
+    const result = await getResourceByNameOrId(RESOURCE_KEY_MAP.POKEMON, pokemonDict[input]);
+    if (result.status != 'SUCCESS') {
+      console.log(`getResourceByNameOrId('POKEMON', ${pokemonDict[input]}) failed`);
+      setData('Fail');
+      return;
+    }
+
+    console.log('getResourceByNameOrId result:', result);
+    setData(result.data);
+
+    /*
     const response = await fetch(`/api/pokeApi/pokemon/${pokemonDict[input]}`);
     if (response.ok) {
       const res = await response.json();
@@ -28,11 +51,12 @@ const PokeLookUp = () => {
       setData('Connection to backend failed');
       // console.log('fail');
     }
+    */
   };
 
   return (
     <div className='page-three'>
-      <h1>Let&apos;s get that sweet sweet data</h1>
+      <h1>PokeLookUp</h1>
       <input type='text' value={input} onChange={handleInputChange} />
       <button onClick={handleClick}>Search</button>
       {/* <div>National Dex: {nationalDex['charmander']}</div> */}
