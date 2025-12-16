@@ -30,6 +30,7 @@
     "no-console": "warn",
     "react/jsx-pascal-case": 2,
     "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "prettier/prettier": 1
   },
   "settings": {

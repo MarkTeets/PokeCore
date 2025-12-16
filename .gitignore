@@ -1,5 +1,8 @@
 .DS_Store
 
+# Database build files
+database-build/
+
 # Local Cache
 src/server/localCache
 

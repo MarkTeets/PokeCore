@@ -1,3 +1,15 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "cSpell.words": [
+    "Bulbapedia",
+    "PALPARK",
+    "Poké",
+    "pokeapi",
+    "POKEATHLON",
+    "Pokéball",
+    "Pokéballs",
+    "Pokédex",
+    "Pokédexes",
+    "tera"
+  ],
 }
