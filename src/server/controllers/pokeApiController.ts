@@ -102,7 +102,7 @@ const fetchPokeApiJsonData: RequestHandler = async (req, res, next) => {
     // console.log('fullUrl:', fullUrl);
     // Create the path to the local cache file
     const localCachePath = path.resolve(__dirname, '../localCache/' + fullUrl + '.json');
-    //console.log('localCachePath', localCachePath);
+    console.log('localCachePath', localCachePath);
 
     // Check to see if the file already exists in the localCache
     const dataExists = fs.existsSync(localCachePath);

@@ -7,8 +7,11 @@ import * as path from 'path';
 
 // Types
 import { RequestHandler } from 'express';
-import { PokeDataResponse } from '../../types';
 import { CustomErrorGenerator } from '../backendTypes';
+
+// Constants
+import { BASE_URL } from '../../utils/pokeApi/constants';
+//const baseUrl = BASE_URL.REST;
 
 // Helper function: createErr will return an object formatted for the global error handler
 import controllerErrorMaker from '../../utils/controllerErrorMaker';
@@ -28,8 +31,9 @@ const pokeFetch: RequestHandler = async (req, res, next) => {
 
     const url = param1.concat(param2, param3);
     const baseUrl = 'pokeapi.co/api/v2/';
-    const fullUrl = baseUrl + url;
-    console.log('fullUrl:', fullUrl);
+    const cleanUrl = url.charAt(url.length - 1) === '/' ? url.substring(0, url.length - 1) : url;
+    const fullUrl = baseUrl + cleanUrl;
+    // console.log('fullUrl:', fullUrl);
     // Create the path to the local cache file
     const localCachePath = path.resolve(__dirname, '../localCache/' + fullUrl + '.json');
     //console.log('localCachePath', localCachePath);
@@ -37,7 +41,7 @@ const pokeFetch: RequestHandler = async (req, res, next) => {
     res.locals.frontendData = {
       status: '',
       pokeData: {}
-    } as PokeDataResponse;
+    };
 
     // Check to see if the file already exists in the localCache
     const dataExists = fs.existsSync(localCachePath);
@@ -67,7 +71,7 @@ const pokeFetch: RequestHandler = async (req, res, next) => {
     // Make the directory(ies) for the local cache
     let pathStart = path.resolve(__dirname, '../localCache/' + baseUrl);
     //console.log('pathStart', pathStart);
-    const dirs = url.split('/').slice(0, -1);
+    const dirs = cleanUrl.split('/').slice(0, -1);
     for (let i = 0; i < dirs.length; i++) {
       const nextPath = pathStart + '/' + dirs[i];
       // console.log('nextPath', nextPath);

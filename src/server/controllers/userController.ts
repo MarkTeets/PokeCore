@@ -17,7 +17,7 @@ const createErr: CustomErrorGenerator = controllerErrorMaker('userController');
 const getUserList: RequestHandler = async (req, res, next) => {
   //console.log('starting getUserList');
   try {
-    const queryString = 'SELECT * FROM trainer.identity';
+    const queryString = 'SELECT * FROM app_user.app_user';
     const data = await dbQuery(queryString);
     //console.log('executed query');
     //console.log('data:', data);

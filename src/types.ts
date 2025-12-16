@@ -1,4 +1,4 @@
-/** User
+/** App User
  *
  * @type User: object - holds all info related to a user required for frontend.
  * It can also be null before the data is populated.
@@ -8,7 +8,7 @@
  * numbers, and the values are objects which hold the puzzle number and a progress string
  */
 export type User = {
-  id: number;
+  app_user_id: number;
   username: string;
   displayName: string;
 } | null;
@@ -21,4 +21,12 @@ export type WelcomeResponse = {
 export type PokeDataResponse = {
   status: string;
   pokeData: any;
+};
+
+type LoadState = 'IDLE' | 'LOADING' | 'FAILED' | 'SUCCESS';
+
+export type ResourceResponsePackage<T> = {
+  status: LoadState;
+  data: T | null;
+  error: string | null;
 };

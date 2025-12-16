@@ -10,7 +10,7 @@ const PageTwo = () => {
     if (response.ok) {
       const res = await response.json();
       setData(res.message);
-      // console.log(res);
+      console.log(res);
     } else {
       setData('Connection to backend failed');
       // console.log('fail');

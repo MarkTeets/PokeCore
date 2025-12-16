@@ -32,7 +32,7 @@ const Home = () => {
       <select
         name='username'
         id='username-select'
-        value={user ? user.id : ''}
+        value={user ? user.app_user_id : ''}
         onChange={handleChange}
       >
         {generateOptions(userListData)}
@@ -62,17 +62,13 @@ export const userLoader = async () => {
     return res.userList;
   }
 
-  return [
-    { id: 1, username: 'mark', display_name: 'Mark' },
-    { id: 2, username: 'amanda', display_name: 'Amanda' },
-    { id: 3, username: 'sample', display_name: 'Sample' }
-  ];
+  return [];
 };
 
 export const userLoaderTest = () => {
   return [
-    { id: 1, username: 'mark', display_name: 'Mark' },
-    { id: 2, username: 'amanda', display_name: 'Amanda' }
+    { app_user_id: 1, username: 'mark', display_name: 'Mark' },
+    { app_user_id: 2, username: 'amanda', display_name: 'Amanda' }
   ];
 };
 
@@ -86,8 +82,9 @@ const generateOptions = (userList: User[]): JSX.Element[] => {
     </option>
   );
   userList.forEach((user) => {
+    console.log(user.app_user_id);
     options.push(
-      <option value={user.id} key={`user-select-${user.id}`}>
+      <option value={user.app_user_id} key={`user-select-${user.app_user_id}`}>
         {user.username}
       </option>
     );
