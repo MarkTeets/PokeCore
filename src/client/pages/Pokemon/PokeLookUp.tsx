@@ -1,9 +1,11 @@
 // Packages
 import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { PokeDataResponse } from '../../../types';
 import { getResourceByNameOrId } from '../../../utils/pokeApi/fetchers/getResourceByNameOrId';
-import { RESOURCE_KEY_MAP } from '../../../utils/pokeApi/constants';
+import { RESOURCE_KEY_MAP, EndpointTypeMap } from '../../../utils/pokeApi/constants';
+
+// Types
+import { PokeDataResponse, ResourceResponsePackage } from '../../../types';
 
 /** PokeLookUp
  * The purpose of this page is to be able to look up details for a specific species of pokemon.
@@ -31,27 +33,20 @@ const PokeLookUp = () => {
       return;
     }
 
-    const result = await getResourceByNameOrId(RESOURCE_KEY_MAP.POKEMON, pokemonDict[input]);
-    if (result.status != 'SUCCESS') {
-      console.log(`getResourceByNameOrId('POKEMON', ${pokemonDict[input]}) failed`);
+    const result = (await getResourceByNameOrId(
+      RESOURCE_KEY_MAP.POKEMON_SPECIES,
+      pokemonDict[input]
+    )) as ResourceResponsePackage<EndpointTypeMap['POKEMON_SPECIES']>;
+    if (result.status !== 'SUCCESS' || result.data === null) {
+      console.log(`getResourceByNameOrId('POKEMON_SPECIES', ${pokemonDict[input]}) failed`);
       setData('Fail');
       return;
     }
 
-    console.log('getResourceByNameOrId result:', result);
-    setData(result.data);
-
-    /*
-    const response = await fetch(`/api/pokeApi/pokemon/${pokemonDict[input]}`);
-    if (response.ok) {
-      const res = await response.json();
-      setData(res);
-      console.log(res);
-    } else {
-      setData('Connection to backend failed');
-      // console.log('fail');
+    if (result.status === 'SUCCESS' && result.data !== null) {
+      setData(result.data);
     }
-    */
+    console.log('getResourceByNameOrId result:', result);
   };
 
   return (
@@ -60,7 +55,9 @@ const PokeLookUp = () => {
       <input type='text' value={input} onChange={handleInputChange} />
       <button onClick={handleClick}>Search</button>
       {/* <div>National Dex: {nationalDex['charmander']}</div> */}
-      {data && <img src={`/api/pokeApi/png/pokemon/${pokemonDict[input]}`} alt='Fetched PNG' />}
+      {data && Object.hasOwn(pokemonDict, input) && (
+        <img src={`/api/pokeApi/png/pokemon/${pokemonDict[input]}`} alt='Fetched PNG' />
+      )}
       <div>Data: {JSON.stringify(data)}</div>
     </div>
   );
@@ -71,20 +68,18 @@ export default PokeLookUp;
 // Loader
 export const pokedexLoader = async () => {
   console.log('fetching pokedex');
-  const response: Response = await fetch('/api/pokeApi/pokedex/1');
+  const response = (await getResourceByNameOrId(
+    RESOURCE_KEY_MAP.POKEDEX,
+    1
+  )) as ResourceResponsePackage<EndpointTypeMap['POKEDEX']>;
   console.log('response:', response);
-  // If the response status isn't in 200s, inform user
-  if (!response.ok) {
+
+  if (response.status === 'FAILED' || response.data === null) {
     return { error: 'Retrieval failed, please try again' };
   }
 
-  // The request response has status 200, convert the response back to JS from JSON and proceed
-  const res = (await response.json()) as PokeDataResponse;
-
-  if (res.status === 'valid') {
-    console.log(res);
-    //return res.pokeData;
-    const pokemonEntries = res.pokeData?.pokemon_entries;
+  if (response.status === 'SUCCESS' && response.data !== null) {
+    const pokemonEntries = response.data.pokemon_entries;
     console.log('pokemonEntries[0]', pokemonEntries[0]);
     const pokemonDict = {};
     pokemonEntries.map((entry) => {

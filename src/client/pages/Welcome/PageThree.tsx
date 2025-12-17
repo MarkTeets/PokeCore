@@ -8,7 +8,7 @@ import { ResourceResponsePackage } from '../../../types';
 // Utils
 import { EndpointTypeMap, RESOURCE_KEY_MAP } from '../../../utils/pokeApi/constants';
 import { getResourceByNameOrId } from '../../../utils/pokeApi/fetchers/getResourceByNameOrId';
-import { getResourceList } from '../../../utils/pokeApi/fetchers/getResourceList'; 
+import { getResourceList } from '../../../utils/pokeApi/fetchers/getResourceList';
 //import { getTypeList, PokeTypes } from '../../../utils/classes/PokeTypes';
 
 // Main component
@@ -16,9 +16,10 @@ const PageThree = () => {
   const [data, setData] = useState<string | null>(null);
 
   const handleClick = async () => {
-    const response = (await getResourceByNameOrId(RESOURCE_KEY_MAP.TYPE, 10)) as ResourceResponsePackage<
-      EndpointTypeMap['TYPE']
-    >;
+    const response = (await getResourceByNameOrId(
+      RESOURCE_KEY_MAP.TYPE,
+      10
+    )) as ResourceResponsePackage<EndpointTypeMap['TYPE']>;
     if (response.data !== null) {
       setData(response.data.name);
       console.log(response);
@@ -36,10 +37,11 @@ const PageThree = () => {
   }
 */
   const handleClick3 = async () => {
-    const response = (await getResourceByNameOrId(RESOURCE_KEY_MAP.POKEMON, 10)) as ResourceResponsePackage<
-      EndpointTypeMap['POKEMON']
-    >;
-    if (response.data !== null) {
+    const response = (await getResourceByNameOrId(
+      RESOURCE_KEY_MAP.POKEDEX,
+      1
+    )) as ResourceResponsePackage<EndpointTypeMap['POKEDEX']>;
+    if (response.status === 'SUCCESS' && response.data !== null) {
       setData(response.data.name);
       console.log(response);
     } else {
@@ -49,9 +51,9 @@ const PageThree = () => {
   };
 
   const handleClick4 = async () => {
-    const response = (await getResourceList(RESOURCE_KEY_MAP.NATURE)) as ResourceResponsePackage<
-      NamedAPIResourceList
-    >;
+    const response = (await getResourceList(
+      RESOURCE_KEY_MAP.POKEMON_SPECIES
+    )) as ResourceResponsePackage<NamedAPIResourceList>;
     if (response.data !== null) {
       //setData(response.data.count.toString());
       console.log(response);

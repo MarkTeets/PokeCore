@@ -103,7 +103,7 @@ const fetchPokeApiJsonData: RequestHandler = async (req, res, next) => {
     // console.log('fullUrl:', fullUrl);
     // Create the path to the local cache file
     const localCachePath = path.resolve(__dirname, '../localCache/' + fullUrl + '.json');
-    // console.log('localCachePath', localCachePath);
+    console.log('localCachePath', localCachePath);
 
     // Check to see if the file already exists in the localCache
     const dataExists = fs.existsSync(localCachePath);
@@ -122,7 +122,7 @@ const fetchPokeApiJsonData: RequestHandler = async (req, res, next) => {
       } else {
         // File is fresh enough, use cached data
         res.locals.frontendData = JSON.parse(fs.readFileSync(localCachePath, 'utf8'));
-        // console.log('Data retrieved from cache');
+        console.log('Data retrieved from cache');
         return next();
       }
     }
@@ -142,15 +142,18 @@ const fetchPokeApiJsonData: RequestHandler = async (req, res, next) => {
     // console.log('Response data:', data);
 
     // Make the directory(ies) for the local cache
-    let pathStart = path.resolve(__dirname, '../localCache/' + baseUrl);
-    //console.log('pathStart', pathStart);
+    let pathStart = path.resolve(__dirname, '../localCache/');
+    // console.log('fullUrl', fullUrl);
+    // console.log('pathStart', pathStart);
     const dirs = fullUrl.split('/').slice(0, -1);
+    // console.log('dirs', dirs);
     for (let i = 0; i < dirs.length; i++) {
       const nextPath = pathStart + '/' + dirs[i];
       // console.log('nextPath', nextPath);
       if (!fs.existsSync(nextPath)) {
         // console.log("path doesn't exist to:", dirs[i]);
         fs.mkdirSync(nextPath);
+        // console.log('made dir', nextPath);
       }
       pathStart = nextPath;
     }
