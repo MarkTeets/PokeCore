@@ -12,6 +12,7 @@ import { CustomErrorGenerator } from '../backendTypes';
 // Constants
 import { BASE_URL } from '../../utils/pokeApi/constants';
 import { ENDPOINT_VALUES, EndpointValue } from '../../utils/pokeApi/constants';
+const cacheFileMaxDays = 30;
 
 // Helper function: createErr will return an object formatted for the global error handler
 import controllerErrorMaker from '../../utils/controllerErrorMaker';
@@ -102,15 +103,28 @@ const fetchPokeApiJsonData: RequestHandler = async (req, res, next) => {
     // console.log('fullUrl:', fullUrl);
     // Create the path to the local cache file
     const localCachePath = path.resolve(__dirname, '../localCache/' + fullUrl + '.json');
-    console.log('localCachePath', localCachePath);
+    // console.log('localCachePath', localCachePath);
 
     // Check to see if the file already exists in the localCache
     const dataExists = fs.existsSync(localCachePath);
     // Return the data if it exists in the cache already
     if (dataExists) {
-      res.locals.frontendData = JSON.parse(fs.readFileSync(localCachePath, 'utf8'));
-      console.log('Data retrieved from cache');
-      return next();
+      const stats = fs.statSync(localCachePath);
+      const now = new Date();
+      const lastModifiedTime = new Date(stats.mtime);
+      const ageInDays = (now.getTime() - lastModifiedTime.getTime()) / (1000 * 60 * 60 * 24);
+      // console.log('ageInDays:', ageInDays);
+
+      if (ageInDays > cacheFileMaxDays) {
+        // File is older than the max days, delete it
+        fs.unlinkSync(localCachePath);
+        // console.log('Cache file deleted because it was older than 30 days');
+      } else {
+        // File is fresh enough, use cached data
+        res.locals.frontendData = JSON.parse(fs.readFileSync(localCachePath, 'utf8'));
+        // console.log('Data retrieved from cache');
+        return next();
+      }
     }
 
     // Fetch the new data from the api and store it

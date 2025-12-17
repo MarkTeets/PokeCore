@@ -1,12 +1,15 @@
 // Packages
 import React, { useState } from 'react';
 
-// Utils
-import { EndpointTypeMap } from '../../../utils/pokeApi/constants';
-import { getResourceByNameOrId } from '../../../utils/pokeApi/fetchers/getResourceByNameOrId';
+// Types
+import { NamedAPIResourceList } from '../../../utils/pokeApi/models';
 import { ResourceResponsePackage } from '../../../types';
+
+// Utils
+import { EndpointTypeMap, RESOURCE_KEY_MAP } from '../../../utils/pokeApi/constants';
+import { getResourceByNameOrId } from '../../../utils/pokeApi/fetchers/getResourceByNameOrId';
+import { getResourceList } from '../../../utils/pokeApi/fetchers/getResourceList'; 
 //import { getTypeList, PokeTypes } from '../../../utils/classes/PokeTypes';
-import { RESOURCE_KEY_MAP } from '../../../utils/pokeApi/constants';
 
 // Main component
 const PageThree = () => {
@@ -45,10 +48,23 @@ const PageThree = () => {
     }
   };
 
+  const handleClick4 = async () => {
+    const response = (await getResourceList(RESOURCE_KEY_MAP.NATURE)) as ResourceResponsePackage<
+      NamedAPIResourceList
+    >;
+    if (response.data !== null) {
+      //setData(response.data.count.toString());
+      console.log(response);
+    } else {
+      setData('Connection to backend failed');
+      // console.log('fail');
+    }
+  };
+
   return (
     <div className='page-three'>
       <h1>This is page three</h1>
-      <button onClick={handleClick3}>Click to retrieve data</button>
+      <button onClick={handleClick4}>Click to retrieve data</button>
       <div>{data}</div>
       <img src='/api/pokeApi/png/pokemon/4' alt='Fetched PNG' />
     </div>
