@@ -23,7 +23,7 @@ const checkEndpointBase: RequestHandler = async (req, res, next) => {
   console.log(req.body);
 
   const endpoint = req.body.endpoint;
-  console.log('endpoint:', endpoint, '; type:', typeof endpoint);
+  // console.log(`endpoint: ${endpoint}; type: ${typeof endpoint}`);
 
   if (endpoint === undefined) {
     return next(
@@ -46,16 +46,17 @@ const checkEndpointBase: RequestHandler = async (req, res, next) => {
       })
     );
   }
+  console.log(`endpoint "${endpoint}" verified`);
   return next();
 };
 
 const createResourceEndpoint: RequestHandler = async (req, res, next) => {
-  console.log('req.body:');
-  console.log(req.body);
+  // console.log('req.body:');
+  // console.log(req.body);
 
   const endpoint = req.body.endpoint as EndpointValue;
   const id = req.body.id;
-  console.log('id:', id, '; type:', typeof id);
+  console.log(`id: ${id}; type: ${typeof id}`);
 
   if (id === undefined) {
     return next(
@@ -74,23 +75,24 @@ const createResourceEndpoint: RequestHandler = async (req, res, next) => {
   } else {
     endUrl = endpoint.concat('/', id);
   }
+  console.log(`end of resource retrieval url: "${endUrl}"`);
   res.locals.endUrl = endUrl;
   return next();
 };
 
 const createResourceListEndpoint: RequestHandler = async (req, res, next) => {
-  console.log('req.body:');
-  console.log(req.body);
+  // console.log('req.body:');
+  // console.log(req.body);
 
   const endpoint = req.body.endpoint as EndpointValue;
-  console.log('endpoint:', endpoint, '; type:', typeof endpoint);
+  // console.log('endpoint:', endpoint, '; type:', typeof endpoint);
   const offset = req.body.offset ? req.body.offset : 0;
-  console.log('offset:', offset, '; type:', typeof offset);
+  // console.log('offset:', offset, '; type:', typeof offset);
   const limit = req.body.limit ? req.body.limit : 3000;
-  console.log('limit:', limit, '; type:', typeof limit);
+  // console.log('limit:', limit, '; type:', typeof limit);
 
   const endUrl = endpoint.concat(`?offset=${offset}&limit=${limit}`);
-
+  // console.log(`end of resource list url: "${endUrl}"`);
   res.locals.endUrl = endUrl;
   return next();
 };
@@ -100,7 +102,7 @@ const fetchPokeApiJsonData: RequestHandler = async (req, res, next) => {
     const baseUrl = BASE_URL.JSON;
     const endUrl = res.locals.endUrl as string;
     const fullUrl = baseUrl + endUrl;
-    // console.log('fullUrl:', fullUrl);
+    console.log(`fullUrl: ${fullUrl}"`);
     // Create the path to the local cache file
     const localCachePath = path.resolve(__dirname, '../localCache/' + fullUrl + '.json');
     console.log('localCachePath', localCachePath);
@@ -118,7 +120,7 @@ const fetchPokeApiJsonData: RequestHandler = async (req, res, next) => {
       if (ageInDays > cacheFileMaxDays) {
         // File is older than the max days, delete it
         fs.unlinkSync(localCachePath);
-        // console.log('Cache file deleted because it was older than 30 days');
+        console.log('Cache file deleted because it was older than 30 days');
       } else {
         // File is fresh enough, use cached data
         res.locals.frontendData = JSON.parse(fs.readFileSync(localCachePath, 'utf8'));
