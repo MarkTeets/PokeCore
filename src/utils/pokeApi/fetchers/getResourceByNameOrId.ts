@@ -44,7 +44,7 @@ export const getResourceByNameOrId = async (
     result.data = await response.json();
     pokeApiCache[endpoint][ID] = result.data;
     result.status = 'SUCCESS';
-    console.log('Response data from backend:', result.data);
+    // console.log('Response data from backend:', result.data);
   } else {
     console.log('getResourceByNameOrId failure');
     result.status = 'FAILED';
