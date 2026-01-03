@@ -11,15 +11,15 @@ const createResourceResponsePackage = (): ResourceResponsePackage<EndpointTypeMa
 };
 
 export const getResourceByNameOrId = async (
-  endpoint: ResourceKey,
+  resourceKey: ResourceKey,
   id: string | number
 ): Promise<ResourceResponsePackage<EndpointTypeMap[ResourceKey]>> => {
   const ID = id.toString();
   const result = createResourceResponsePackage();
 
   // Check cache and return if there
-  if (Object.hasOwn(pokeApiCache[endpoint], ID) && !!pokeApiCache[endpoint][ID]) {
-    result.data = pokeApiCache[endpoint][ID];
+  if (Object.hasOwn(pokeApiCache[resourceKey], ID) && !!pokeApiCache[resourceKey][ID]) {
+    result.data = pokeApiCache[resourceKey][ID];
     result.status = 'SUCCESS';
     console.log('Response data from cache:', result.data);
     console.log('pokeApiCache:', pokeApiCache);
@@ -33,7 +33,7 @@ export const getResourceByNameOrId = async (
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      endpoint: ENDPOINT_MAP[endpoint],
+      endpoint: ENDPOINT_MAP[resourceKey],
       id
     })
   });
@@ -42,7 +42,7 @@ export const getResourceByNameOrId = async (
 
   if (response.ok) {
     result.data = await response.json();
-    pokeApiCache[endpoint][ID] = result.data;
+    pokeApiCache[resourceKey][ID] = result.data;
     result.status = 'SUCCESS';
     // console.log('Response data from backend:', result.data);
   } else {

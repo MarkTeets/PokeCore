@@ -16,13 +16,14 @@ export const getEntireResource = async (resourceKey: ResourceKey): Promise<void>
     );
     console.log('resourceListResponse.status:', resourceListResponse.status);
     console.log('resourceListResponse.data:', resourceListResponse.data);
-    return;
   }
 
   const resourceList = resourceListResponse.data.results;
   for (const resource of resourceList) {
     const urlStrings = resource.url.split('/');
     const id = urlStrings[urlStrings.length - 2];
+
+    if (Object.hasOwn(pokeApiCache[resourceKey], id) && !!pokeApiCache[resourceKey][id]) continue;
 
     const resourceResponse = await getResourceByNameOrId(resourceKey, id);
     if (resourceResponse.status !== 'SUCCESS' || resourceResponse.data === null) {

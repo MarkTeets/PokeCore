@@ -2,6 +2,9 @@ import React, { Dispatch, SetStateAction, ReactNode, MutableRefObject, Component
 
 // Types
 import { User } from '../types';
+import { TypeDisplayName } from '../utils/pokeApi/constants';
+
+export type OffenseOrDefense = 'OFFENSE' | 'DEFENSE';
 
 //---- Dispatch Types ----------------------------------------------------------------------------
 export type SetUser = Dispatch<SetStateAction<User>>;
@@ -52,119 +55,23 @@ export type InitializeSquares = (
   user: User,
   puzzleCollection: PuzzleCollection
 ) => InitialSquares;
-
-export type ResetStateOnRefresh = (
-  puzzleNumber: number,
-  user: User,
-  puzzleCollection: PuzzleCollection,
-  setInitialSquares: SetInitialSquares,
-  setFilledSquares: SetFilledSquares,
-  setPencilSquares: SetPencilSquares
-) => void;
-
-export type OnNumberChange = (
-  buttonVal: PuzzleVal,
-  pencilMode: boolean,
-  clickedSquare: ClickedSquare,
-  filledSquares: FilledSquares,
-  setFilledSquares: SetFilledSquares,
-  pencilSquares: PencilSquares,
-  setPencilSquares: SetPencilSquares
-) => void;
-
-export type OnNumberClick = (
-  e: React.MouseEvent<HTMLButtonElement>,
-  pencilMode: boolean,
-  clickedSquare: ClickedSquare,
-  filledSquares: FilledSquares,
-  setFilledSquares: SetFilledSquares,
-  pencilSquares: PencilSquares,
-  setPencilSquares: SetPencilSquares
-) => void;
-
-export type OnNumberDelete = (
-  pencilMode: boolean,
-  clickedSquare: ClickedSquare,
-  filledSquares: FilledSquares,
-  setFilledSquares: SetFilledSquares,
-  pencilSquares: PencilSquares,
-  setPencilSquares: SetPencilSquares
-) => void;
-
-export type OnPuzzleKeyDown = (
-  e: React.KeyboardEvent<HTMLElement>,
-  pencilMode: boolean,
-  clickedSquare: ClickedSquare,
-  filledSquares: FilledSquares,
-  setFilledSquares: SetFilledSquares,
-  pencilSquares: PencilSquares,
-  setPencilSquares: SetPencilSquares
-) => void;
-
-export type MakeButtons = (
-  pencilMode: boolean,
-  clickedSquare: ClickedSquare,
-  filledSquares: FilledSquares,
-  setFilledSquares: SetFilledSquares,
-  pencilSquares: PencilSquares,
-  setPencilSquares: SetPencilSquares
-) => React.JSX.Element[];
-
-export type AutofillPencilSquares = (
-  filledSquares: FilledSquares,
-  setPencilSquares: SetPencilSquares
-) => void;
-
-export type SignInWithSession = (
-  setUser: SetUser,
-  setPuzzleCollection: SetPuzzleCollection
-) => Promise<boolean>;
+*/
 
 //---- Component Props ---------------------------------------------------------------------------
-export type SideBarProps = {
-  collapseSideBar: () => void;
+export type TypeCalcDisplayBlockProps = {
+  name: string;
+  multiplier: number;
 };
 
-export type SideBarContainerProps = {
-  SideBar: ComponentType<SideBarProps>;
+export type TypeCalcDisplayProps = {
+  typeCalcs: TypeCalcDisplayBlockProps[];
 };
 
-export type SideBarSectionContainerProps = {
-  children: ReactNode;
-  title: string;
-  defaultExpanded?: boolean;
+export type TypeCalcRowProps = {
+  offenseOrDefense: OffenseOrDefense;
+  typeList: TypeDisplayName[];
 };
 
-export type SettingsToggleProps = {
-  label: string;
-  state: boolean;
-  setState: Dispatch<SetStateAction<boolean>>;
+export type TypeSummaryProps = {
+  typeList: TypeDisplayName[];
 };
-
-export type PuzzleNumberProp = {
-  puzzleNumber?: number;
-};
-
-export type SavedPuzzleGraphicProps = {
-  progress: string;
-};
-
-export type BoxUnitContainerProps = {
-  boxUnit: Set<SquareId>;
-};
-
-export type SquareContainerProps = {
-  squareId: SquareId;
-};
-
-export type SquareProps = {
-  squareId: SquareId;
-  squareClasses: string;
-  onSquareClick: OnSquareClick;
-};
-
-export type PencilSquareProps = {
-  squareId: SquareId;
-  onSquareClick: OnSquareClick;
-};
-*/

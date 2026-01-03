@@ -143,6 +143,10 @@ export const TYPES = {
   UNKNOWN: 10_001,
   SHADOW: 10_002
 } as const;
+
+export type TypeName = keyof typeof TYPES;
+
+export type TypeDisplayName = Exclude<TypeName, 'STELLAR' | 'UNKNOWN' | 'SHADOW'>;
 /*
 export const TYPES_LOWER_TO_UPPER_MAP = {
   normal: 'NORMAL',

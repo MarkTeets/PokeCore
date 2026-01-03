@@ -11,8 +11,8 @@ const createResourceListResponsePackage = (): ResourceResponsePackage<NamedAPIRe
   };
 };
 
-export const getResourceList = async <E extends ResourceKey>(
-  endpoint: E,
+export const getResourceList = async <R extends ResourceKey>(
+  resourceKey: R,
   offset: string | number = 0,
   limit: string | number = 3000
 ): Promise<ResourceResponsePackage<NamedAPIResourceList>> => {
@@ -20,12 +20,12 @@ export const getResourceList = async <E extends ResourceKey>(
 
   // Retrieve from cache if there
   if (
-    Object.hasOwn(pokeApiCache[endpoint], 'resourceList') &&
-    !!pokeApiCache[endpoint].resourceList
+    Object.hasOwn(pokeApiCache[resourceKey], 'resourceList') &&
+    !!pokeApiCache[resourceKey].resourceList
   ) {
-    result.data = pokeApiCache[endpoint].resourceList;
+    result.data = pokeApiCache[resourceKey].resourceList;
     result.status = 'SUCCESS';
-    console.log('Response data from cache:', result.data);
+    console.log('Response data for getResourceList from cache:', result.data);
     return result;
   }
 
@@ -36,7 +36,7 @@ export const getResourceList = async <E extends ResourceKey>(
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      endpoint: ENDPOINT_MAP[endpoint],
+      endpoint: ENDPOINT_MAP[resourceKey],
       offset,
       limit
     })
@@ -46,7 +46,7 @@ export const getResourceList = async <E extends ResourceKey>(
 
   if (response.ok) {
     result.data = await response.json();
-    pokeApiCache[endpoint].resourceList = result.data;
+    pokeApiCache[resourceKey].resourceList = result.data;
     result.status = 'SUCCESS';
     console.log('Response data from backend:', result.data);
   } else {
