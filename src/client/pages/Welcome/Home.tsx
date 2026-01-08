@@ -46,6 +46,7 @@ export default Home;
 
 // Loaders
 export const userLoader = async () => {
+  // console.log('Request userList');
   // Request list of users from backend
   const response: Response = await fetch('/api/user/get-userList');
 
@@ -53,7 +54,7 @@ export const userLoader = async () => {
   if (!response.ok) {
     return { error: 'Retrieval failed, please try again' };
   }
-
+  
   // The request response has status 200, convert the response back to JS from JSON and proceed
   const res = (await response.json()) as WelcomeResponse;
 
@@ -82,7 +83,7 @@ const generateOptions = (userList: User[]): JSX.Element[] => {
     </option>
   );
   userList.forEach((user) => {
-    console.log(user.app_user_id);
+    // console.log(user.app_user_id);
     options.push(
       <option value={user.app_user_id} key={`user-select-${user.app_user_id}`}>
         {user.username}
